@@ -6,6 +6,7 @@ public class TableRowTest extends TestCase
 {
 	private String testString = "12:58 - 13:18 Kings Cross (Piccadilly, Victoria lines) to East Finchley £2.70 £23.10";
 	private String dateTestString = "Monday, 13 October 2014";
+	
 	private TableRow tr;
 	private TableRow dateTr;
 	

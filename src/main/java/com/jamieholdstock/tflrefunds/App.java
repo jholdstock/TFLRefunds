@@ -1,22 +1,19 @@
 package com.jamieholdstock.tflrefunds;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import com.jamieholdstock.tflrefunds.webdrivers.HeadlessDriver;
 
 public class App 
 {
-	//private static WebDriver driver = new FirefoxDriver();
-	private static WebDriver driver = new HtmlUnitDriver();
-	
 	private static String username;
 	private static String password;
 	
     public static void main(String[] args) {
-    	disableSpammyLogs();
+    	log("");
+    	
+    	//VisibleDriver driver = new VisibleDriver();
+    	HeadlessDriver driver = new HeadlessDriver();	
     	
     	checkArguments(args);
     	
@@ -31,20 +28,26 @@ public class App
 		}     
 		        
         log("Getting journey history... ");
-        List<Journey> journeys = oysterPage.getJourneys();
-
-        log("Got " + journeys.size() + " journeys:");
-        for (Journey j : journeys) {
-        	log(j.toString());
-        	log("\n");
-        }
         
+        List<Journey> journeys = oysterPage.getJourneys();
+        
+        JourneyPlannerPage jpPage = new JourneyPlannerPage(driver);
+        
+        int x = 0;
+        for (Journey j : journeys) {
+        	log("\n");
+        	log(j.toString());
+       		Duration expectedDuration = jpPage.getJourneyDuration(j.getSource(), j.getDestination());
+    		
+    		log("EXPECTED: " + expectedDuration);
+    		log("DIFF: " + (j.getDuration().toInt() - expectedDuration.toInt()));
+        	
+        	
+        	x++;
+        	if (x == 3) break;
+        }
+                
         driver.quit();
-    }
-    
-    private static void disableSpammyLogs() {
-    	Logger logger = Logger.getLogger("");
-    	logger.setLevel(Level.OFF);
     }
     
     private static void checkArguments(String[] args) {
