@@ -6,19 +6,17 @@ import org.openqa.selenium.NoSuchElementException;
 
 import com.jamieholdstock.tflrefunds.webdrivers.HeadlessDriver;
 
-public class App 
-{
+public class App {
 	private static String username;
 	private static String password;
 	
     public static void main(String[] args) {
-    	log("");
-    	
     	//VisibleDriver driver = new VisibleDriver();
     	HeadlessDriver driver = new HeadlessDriver();	
     	
+    	log("");
     	checkArguments(args);
-    	
+       	
     	log("Logging in to https://account.tfl.gov.uk... ");
         OysterHistoryPage oysterPage = null;
 		
@@ -56,17 +54,16 @@ public class App
     
     private static void checkArguments(String[] args) {
     	if (args.length != 2) {
-    		abnormalEnd("Please pass username and password in command line arguments");
+    		log("Enter username: ");
+    		username = System.console().readLine();
+    		log("Enter password: ");
+    		password = new String(System.console().readPassword());
     	}
     	else {
+    		log ("Using command line arguments");
     		username = args[0];
     		password = args[1];
     	}
-    }
-    
-    private static void abnormalEnd(String message) {
-    	log(message);
-    	System.exit(1);
     }
        
     private static void log(Object s) {

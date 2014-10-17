@@ -26,7 +26,7 @@ public class Journey {
 	}
 
 	public Duration getDuration() {
-	    return Duration.fromTimes(start, end);
+	    return Duration.betweenTimes(start, end);
 	}
 	
 	@Override

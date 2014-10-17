@@ -16,7 +16,7 @@ public class Duration {
 		return new Duration((60 * hours) + minutes);
 	}
 	
-	public static Duration fromTimes(Time start, Time end) {
+	public static Duration betweenTimes(Time start, Time end) {
 		int lEnd = end.toMinutes();
 		int lStart = start.toMinutes();
 		

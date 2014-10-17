@@ -48,6 +48,6 @@ public class DurationTest extends TestCase {
 	private void durationFromTimes(String sStart, String sEnd) {
 		Time start = Time.fromTflFormat(sStart);
 		Time end = Time.fromTflFormat(sEnd);
-		duration = Duration.fromTimes(start, end);
+		duration = Duration.betweenTimes(start, end);
 	}
 }
