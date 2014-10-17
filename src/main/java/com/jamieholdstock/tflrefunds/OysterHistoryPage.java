@@ -35,27 +35,70 @@ public class OysterHistoryPage {
 	public List<Journey> getJourneys() {
 		driver.findElement(By.linkText("Journey history")).click();
         
-        WebElement tableElement = fluentWait("//table[@class='journeyhistory']");
-        
+		waitForPageToLoad();
+		
+		//selectAllHistory();
+			
         List<Journey> journeys = new ArrayList<Journey>();
-        String date = "NOT SET";
-        for (WebElement row : tableElement.findElements(By.xpath("//tr[@class='reveal-table-row'] | //td[@class='day-date status-1']"))) {
-        	TableRow tr = new TableRow(row.getText());
+        boolean endLoop = false;
+        do {
+	        String date = "NOT SET";
+	        WebElement tableElement = driver.findElement(By.xpath("//table[@class='journeyhistory']"));
+	        for (WebElement row : tableElement.findElements(By.xpath("//tr[@class='reveal-table-row'] | //td[@class='day-date status-1']"))) {
+	        	TableRow tr = new TableRow(row.getText());
+	        	
+	        	if (tr.isDate()) {
+	        		date = tr.toString();
+	        		continue;
+	        	}
+	        	
+	        	Time end;
+	        	try {
+	        		end = Time.fromTflFormat(tr.getEnd());
+	        	} catch (IllegalStateException exception) {
+	        		// Incomplete journey
+	        		continue;
+	        	}
+	        	
+	        	Time start = Time.fromTflFormat(tr.getStart());
         	
-        	if (tr.isDate()) {
-        		date = tr.toString();
-        		continue;
-        	}
-        	
-        	Time start = Time.fromTflFormat(tr.getStart());
-        	Time end = Time.fromTflFormat(tr.getEnd());
-        	
-        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end, tr.getCost());
-        	
-        	journeys.add(j);
-        	j.getDuration();
+	        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end, tr.getCost());
+	        	
+	        	journeys.add(j);
+	        }
+	        
+	        if (anotherPage()) {
+	        	driver.findElement(By.linkText("Next »")).click();
+	        	waitForPageToLoad();
+	        }
+	        else {
+	        	endLoop = true;
+	        }
         }
+        while (!endLoop);
+        
+        System.out.println("Got journeys: " + journeys.size());
+        
         return journeys;
+	}
+	
+	private void selectAllHistory() {
+		WebElement select = driver.findElement(By.id("date-range"));
+		select.click();
+		select.findElement(By.xpath("//option[text()='custom date range']")).click();
+		
+        fluentWait("//input[@id='from']");
+        
+        driver.findElement(By.id("from")).click();
+        driver.findElement(By.xpath("//div[@class='ui-datepicker-group ui-datepicker-group-first']//a[1]")).click();
+        
+        driver.findElement(By.id("to")).click();
+        
+        Object[] list = driver.findElements(By.xpath("//div[@class='ui-datepicker-group ui-datepicker-group-last']//a")).toArray();
+        ((WebElement)list[list.length-1]).click();
+        
+        driver.findElement(By.id("date-range-button")).click();
+        waitForPageToLoad();
 	}
 	
 	private boolean errorMessageIsShown() {
@@ -66,6 +109,20 @@ public class OysterHistoryPage {
         catch (NoSuchElementException exception) {
         	return false;
         }    
+	}
+	
+	private boolean anotherPage() {
+		try {
+			driver.findElement(By.linkText("Next »"));
+        	return true;
+        }
+        catch (NoSuchElementException exception) {
+        	return false;
+        }    
+	}
+	
+	private void waitForPageToLoad() { 
+		fluentWait("//table[@class='journeyhistory']");
 	}
 	
 	private WebElement fluentWait(final String locator) {
