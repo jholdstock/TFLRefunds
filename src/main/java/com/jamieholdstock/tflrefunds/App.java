@@ -2,6 +2,8 @@ package com.jamieholdstock.tflrefunds;
 
 import java.util.List;
 
+import org.openqa.selenium.NoSuchElementException;
+
 import com.jamieholdstock.tflrefunds.webdrivers.HeadlessDriver;
 
 public class App 
@@ -33,18 +35,20 @@ public class App
         
         JourneyPlannerPage jpPage = new JourneyPlannerPage(driver);
         
-        int x = 0;
         for (Journey j : journeys) {
         	log("\n");
         	log(j.toString());
-       		Duration expectedDuration = jpPage.getJourneyDuration(j.getSource(), j.getDestination());
-    		
+        	Duration expectedDuration = null;
+        	try {
+        		 expectedDuration = jpPage.getJourneyDuration(j.getSource(), j.getDestination());
+        	}
+        	catch (NoSuchElementException exception) {
+        		log("Couldn't lookup expected duration");
+        		continue;
+        	}
+        
     		log("EXPECTED: " + expectedDuration);
     		log("DIFF: " + (j.getDuration().toInt() - expectedDuration.toInt()));
-        	
-        	
-        	x++;
-        	if (x == 3) break;
         }
                 
         driver.quit();
