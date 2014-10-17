@@ -50,7 +50,7 @@ public class OysterHistoryPage {
         	Time start = Time.fromTflFormat(tr.getStart());
         	Time end = Time.fromTflFormat(tr.getEnd());
         	
-        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end);
+        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end, tr.getCost());
         	
         	journeys.add(j);
         	j.getDuration();

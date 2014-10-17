@@ -46,7 +46,11 @@ public class TableRow {
 
 	public String getEnd() {
 		return selectWithRegex("- (" + timeRegex + ")");
-	}	
+	}
+	
+	public String getCost() {
+		return selectWithRegex("(£\\S*)");
+	}
 	
 	private String selectWithRegex(String regex) {
 		Pattern MY_PATTERN = Pattern.compile(regex);

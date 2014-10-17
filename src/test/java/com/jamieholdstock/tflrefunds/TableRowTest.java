@@ -30,6 +30,11 @@ public class TableRowTest extends TestCase
         assertEquals("12:58", start);
     }
     
+    public void test_cost() {
+        String start = tr.getCost();
+        assertEquals("£2.70", start);
+    }
+    
     public void test_end() {
         String end = tr.getEnd();
         assertEquals("13:18", end);
