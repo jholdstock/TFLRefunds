@@ -24,7 +24,7 @@ public class TableRowTest extends TestCase
     
     public void test_source() {
         String source = tr.getSource().getName();
-        assertEquals("King's Cross Station", source);
+        assertEquals("Kings Cross Station", source);
     }
     
     public void test_start() {
