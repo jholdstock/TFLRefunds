@@ -1,5 +1,6 @@
 package com.jamieholdstock.tflrefunds;
 
+
 public class Journey {
 	private String source;
 	private String destination;

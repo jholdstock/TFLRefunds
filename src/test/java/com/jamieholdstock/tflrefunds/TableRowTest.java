@@ -1,5 +1,7 @@
 package com.jamieholdstock.tflrefunds;
 
+import com.jamieholdstock.tflrefunds.pages.oysterhistory.TableRow;
+
 import junit.framework.TestCase;
 
 public class TableRowTest extends TestCase

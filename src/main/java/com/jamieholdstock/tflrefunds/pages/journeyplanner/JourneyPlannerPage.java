@@ -1,8 +1,10 @@
-package com.jamieholdstock.tflrefunds;
+package com.jamieholdstock.tflrefunds.pages.journeyplanner;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+import com.jamieholdstock.tflrefunds.Duration;
 
 public class JourneyPlannerPage {
 	

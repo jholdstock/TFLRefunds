@@ -1,4 +1,4 @@
-package com.jamieholdstock.tflrefunds;
+package com.jamieholdstock.tflrefunds.pages.oysterhistory;
 
 public class IncorrectLoginDetailsException extends Exception {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,4 @@
-package com.jamieholdstock.tflrefunds;
+package com.jamieholdstock.tflrefunds.pages.oysterhistory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,6 +19,15 @@ public class TableRow {
     	}
     	
 		this.rowText = rowText;
+	}
+	
+	public boolean isIncompleteJourney() {
+    	try {
+    		getEnd();
+    		return false;
+    	} catch (IllegalStateException exception) {
+    		return true;
+    	}
 	}
 	
 	public boolean isDate() {

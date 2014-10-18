@@ -1,5 +1,6 @@
 package com.jamieholdstock.tflrefunds;
 
+
 public class Duration {
 	
 	private int iDuration;

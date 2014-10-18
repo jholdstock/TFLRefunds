@@ -33,7 +33,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.jamieholdstock.tflrefunds.App</mainClass>
+                            <mainClass>com.jamieholdstock.tflrefunds.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

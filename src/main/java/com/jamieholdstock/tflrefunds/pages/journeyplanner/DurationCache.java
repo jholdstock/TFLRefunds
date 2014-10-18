@@ -1,7 +1,9 @@
-package com.jamieholdstock.tflrefunds;
+package com.jamieholdstock.tflrefunds.pages.journeyplanner;
 
 import java.util.Arrays;
 import java.util.HashMap;
+
+import com.jamieholdstock.tflrefunds.Duration;
 
 public class DurationCache {
 

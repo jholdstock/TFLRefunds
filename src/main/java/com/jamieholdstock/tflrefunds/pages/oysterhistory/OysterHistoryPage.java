@@ -1,4 +1,4 @@
-package com.jamieholdstock.tflrefunds;
+package com.jamieholdstock.tflrefunds.pages.oysterhistory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +12,13 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
 import com.google.common.base.Function;
+import com.jamieholdstock.tflrefunds.Journey;
+import com.jamieholdstock.tflrefunds.Time;
 
 public class OysterHistoryPage {
 	
 	private WebDriver driver;
+	private boolean allPages = false;
 	
 	public OysterHistoryPage(WebDriver driver, String username, String password) throws IncorrectLoginDetailsException {
     	driver.get("https://account.tfl.gov.uk/oyster/login");
@@ -37,10 +40,13 @@ public class OysterHistoryPage {
         
 		waitForPageToLoad();
 		
-		//selectAllHistory();
+		if (allPages) {
+			selectAllHistory();
+		}
 			
         List<Journey> journeys = new ArrayList<Journey>();
         boolean endLoop = false;
+        
         do {
 	        String date = "NOT SET";
 	        WebElement tableElement = driver.findElement(By.xpath("//table[@class='journeyhistory']"));
@@ -52,16 +58,13 @@ public class OysterHistoryPage {
 	        		continue;
 	        	}
 	        	
-	        	Time end;
-	        	try {
-	        		end = Time.fromTflFormat(tr.getEnd());
-	        	} catch (IllegalStateException exception) {
-	        		// Incomplete journey
+	        	if (tr.isIncompleteJourney()) {
 	        		continue;
 	        	}
 	        	
 	        	Time start = Time.fromTflFormat(tr.getStart());
-        	
+	        	Time end = Time.fromTflFormat(tr.getEnd());
+	        	
 	        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end, tr.getCost());
 	        	
 	        	journeys.add(j);

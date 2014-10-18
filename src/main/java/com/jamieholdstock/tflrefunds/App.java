@@ -3,29 +3,20 @@ package com.jamieholdstock.tflrefunds;
 import java.util.List;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 
-import com.jamieholdstock.tflrefunds.webdrivers.HeadlessDriver;
+import com.jamieholdstock.tflrefunds.pages.journeyplanner.JourneyPlannerPage;
+import com.jamieholdstock.tflrefunds.pages.oysterhistory.IncorrectLoginDetailsException;
+import com.jamieholdstock.tflrefunds.pages.oysterhistory.OysterHistoryPage;
 
 public class App {
-	private static String username;
-	private static String password;
-	
-    public static void main(String[] args) {
-    	//VisibleDriver driver = new VisibleDriver();
-    	HeadlessDriver driver = new HeadlessDriver();	
-    	
-    	log("");
-    	checkArguments(args);
-       	
+
+    public App(WebDriver driver, String username, String password) throws IncorrectLoginDetailsException {
     	log("Logging in to https://account.tfl.gov.uk... ");
         OysterHistoryPage oysterPage = null;
 		
-        try {
-			oysterPage = new OysterHistoryPage(driver, username, password);
-		} catch (IncorrectLoginDetailsException e) {
-			log(e.getMessage());
-			System.exit(1);
-		}     
+        oysterPage = new OysterHistoryPage(driver, username, password);
+		
 		        
         log("Getting journey history... ");
         
@@ -48,24 +39,8 @@ public class App {
     		log("EXPECTED: " + expectedDuration);
     		log("DIFF: " + (j.getDuration().toInt() - expectedDuration.toInt()));
         }
-                
-        driver.quit();
     }
     
-    private static void checkArguments(String[] args) {
-    	if (args.length != 2) {
-    		log("Enter username: ");
-    		username = System.console().readLine();
-    		log("Enter password: ");
-    		password = new String(System.console().readPassword());
-    	}
-    	else {
-    		log ("Using command line arguments");
-    		username = args[0];
-    		password = args[1];
-    	}
-    }
-       
     private static void log(Object s) {
         System.out.println(s.toString());
     }    
