@@ -1,11 +1,17 @@
 package com.jamieholdstock.tflrefunds.pages.journeyplanner;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.jamieholdstock.tflrefunds.Duration;
+import com.jamieholdstock.tflrefunds.Journey;
 import com.jamieholdstock.tflrefunds.Station;
 
 public class JourneyPlannerPage {
@@ -18,7 +24,10 @@ public class JourneyPlannerPage {
         this.durationCache = new DurationCache();
 	}
 	
-	public Duration getJourneyDuration(Station source, Station destination) {
+	public Duration getJourneyDuration(Journey journey) {
+		Station source = journey.getSource();
+		Station destination = journey.getDestination();
+		
 		if (durationCache.containsJourney(source, destination)) {
 			return durationCache.getJourney(source, destination);
 		}
@@ -27,8 +36,14 @@ public class JourneyPlannerPage {
 		driver.findElement(By.id("startpoint")).sendKeys(source.getName());
 		driver.findElement(By.id("endpoint")).sendKeys(destination.getName());
 		
-		driver.findElement(By.id("datepicker")).sendKeys(Keys.chord(Keys.CONTROL, "a"), "20/10/2014");
-		driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), "12:00");
+		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		Date tomorrow = calendar.getTime();
+		
+		driver.findElement(By.id("datepicker")).sendKeys(Keys.chord(Keys.CONTROL, "a"), dateFormat.format(tomorrow));
+		driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), journey.getStart());
 
 		selectOnlyTrainTransportMethods();
 		

@@ -29,7 +29,7 @@ public class App {
         	log(j.toString());
         	Duration expectedDuration = null;
         	try {
-        		 expectedDuration = jpPage.getJourneyDuration(j.getSource(), j.getDestination());
+        		 expectedDuration = jpPage.getJourneyDuration(j);
         	}
         	catch (NoSuchElementException exception) {
         		log("Couldn't lookup expected duration");

@@ -25,6 +25,10 @@ public class Journey {
 	public Station getDestination() {
 		return destination;
 	}
+	
+	public String getStart() {
+		return start.toString();
+	}
 
 	public Duration getDuration() {
 	    return Duration.betweenTimes(start, end);
