@@ -33,7 +33,7 @@ public class JourneyPlannerPage {
         		j.setExpectedDuration(duration);
         	}
         	catch (NoSuchElementException exception) {
-        		throw exception;
+        		continue;
         	}
         }
 		return journeys;
