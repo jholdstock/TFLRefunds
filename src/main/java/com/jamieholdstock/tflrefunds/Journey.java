@@ -2,14 +2,14 @@ package com.jamieholdstock.tflrefunds;
 
 
 public class Journey {
-	private String source;
-	private String destination;
+	private Station source;
+	private Station destination;
 	private String date;
 	private Time start;
 	private Time end;
 	private String cost;
 	
-	public Journey(String source, String destination, String date, Time start, Time end, String cost) {
+	public Journey(Station source, Station destination, String date, Time start, Time end, String cost) {
 		this.source = source;
 		this.destination = destination;
 		this.date = date;
@@ -18,11 +18,11 @@ public class Journey {
 	    this.cost = cost;
 	}
 	
-	public String getSource() {
+	public Station getSource() {
 		return source;
 	}
 
-	public String getDestination() {
+	public Station getDestination() {
 		return destination;
 	}
 

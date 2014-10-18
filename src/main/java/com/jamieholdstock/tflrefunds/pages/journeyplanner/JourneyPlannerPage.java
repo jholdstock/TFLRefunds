@@ -1,10 +1,12 @@
 package com.jamieholdstock.tflrefunds.pages.journeyplanner;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import com.jamieholdstock.tflrefunds.Duration;
+import com.jamieholdstock.tflrefunds.Station;
 
 public class JourneyPlannerPage {
 	
@@ -16,15 +18,18 @@ public class JourneyPlannerPage {
         this.durationCache = new DurationCache();
 	}
 	
-	public Duration getJourneyDuration(String source, String destination) {
+	public Duration getJourneyDuration(Station source, Station destination) {
 		if (durationCache.containsJourney(source, destination)) {
 			return durationCache.getJourney(source, destination);
 		}
 		
 		driver.get("http://journeyplanner.tfl.gov.uk/user/XSLT_TRIP_REQUEST2?language=en");
-		driver.findElement(By.id("startpoint")).sendKeys(source);
-		driver.findElement(By.id("endpoint")).sendKeys(destination);
-				
+		driver.findElement(By.id("startpoint")).sendKeys(source.getName());
+		driver.findElement(By.id("endpoint")).sendKeys(destination.getName());
+		
+		driver.findElement(By.id("datepicker")).sendKeys(Keys.chord(Keys.CONTROL, "a"), "20/10/2014");
+		driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), "12:00");
+
 		selectOnlyTrainTransportMethods();
 		
 		driver.findElement(By.id("endpoint")).submit();

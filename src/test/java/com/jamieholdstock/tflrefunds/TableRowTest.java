@@ -18,13 +18,13 @@ public class TableRowTest extends TestCase
     }
 
     public void test_destination() {
-        String dest = tr.getDestination();
+        String dest = tr.getDestination().getName();
         assertEquals("East Finchley", dest);
     }
     
     public void test_source() {
-        String source = tr.getSource();
-        assertEquals("Kings Cross (Piccadilly, Victoria lines)", source);
+        String source = tr.getSource().getName();
+        assertEquals("King's Cross Station", source);
     }
     
     public void test_start() {

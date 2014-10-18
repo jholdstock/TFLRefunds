@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.jamieholdstock.tflrefunds.Station;
+
 public class TableRow {
 
 	private String rowText;	
@@ -41,13 +43,17 @@ public class TableRow {
     	}
 	}
 	
-	public String getSource() {
-		return selectWithRegex("- " + timeRegex + " ([^£]*) to ");
+	public Station getSource() {
+		String station = selectWithRegex("- " + timeRegex + " ([^£]*) to ");
+		return new Station(station);
 	}
 	
-	public String getDestination() {
-		return selectWithRegex(" to ([^£]*) £");
+	public Station getDestination() {
+		String station = selectWithRegex(" to ([^£]*) £");
+		return new Station(station);
 	}
+	
+	
 	
 	public String getStart() {
 		return selectWithRegex("(" + timeRegex + ")" + " -");
