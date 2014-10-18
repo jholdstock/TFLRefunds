@@ -1,6 +1,7 @@
 package com.jamieholdstock.tflrefunds;
 
 import com.jamieholdstock.tflrefunds.pages.oysterhistory.IncorrectLoginDetailsException;
+import com.jamieholdstock.tflrefunds.persistence.DataStore;
 import com.jamieholdstock.tflrefunds.webdrivers.HeadlessDriver;
 
 public class Main {
@@ -9,6 +10,9 @@ public class Main {
 	private static String password;
 	
 	public static void main(String[] args) {
+		
+		new DataStore();
+		
     	log("\n");
 		
 		//VisibleDriver driver = new VisibleDriver();
