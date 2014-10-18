@@ -18,7 +18,6 @@ import com.jamieholdstock.tflrefunds.Time;
 public class OysterHistoryPage {
 	
 	private WebDriver driver;
-	private boolean allPages = false;
 	
 	public OysterHistoryPage(WebDriver driver, String username, String password) throws IncorrectLoginDetailsException {
     	driver.get("https://account.tfl.gov.uk/oyster/login");
@@ -40,7 +39,7 @@ public class OysterHistoryPage {
         
 		waitForPageToLoad();
 		
-		if (allPages) {
+		if (driver.getClass().getName().contains("Visible")) {
 			selectAllHistory();
 		}
 			

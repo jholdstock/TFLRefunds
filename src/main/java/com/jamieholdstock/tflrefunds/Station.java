@@ -9,7 +9,7 @@ public class Station {
 		stationName = stationName.replace("[National Rail]", "");
 		
 		if (stationName.contains("Kings Cross")) {
-			stationName = "King's Cross Station";
+			stationName = "Kings Cross Station";
 		}
 		
 		if (stationName.contains("Shadwell")) {

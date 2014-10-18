@@ -4,9 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -24,6 +26,19 @@ public class JourneyPlannerPage {
         this.durationCache = new DurationCache();
 	}
 	
+	public List<Journey> getJourneyDurations(List<Journey> journeys) {
+		for (Journey j : journeys) {
+        	try {
+        		Duration duration = getJourneyDuration(j);
+        		j.setExpectedDuration(duration);
+        	}
+        	catch (NoSuchElementException exception) {
+        		throw exception;
+        	}
+        }
+		return journeys;
+	}
+	
 	public Duration getJourneyDuration(Journey journey) {
 		Station source = journey.getSource();
 		Station destination = journey.getDestination();
@@ -36,18 +51,20 @@ public class JourneyPlannerPage {
 		driver.findElement(By.id("startpoint")).sendKeys(source.getName());
 		driver.findElement(By.id("endpoint")).sendKeys(destination.getName());
 		
-		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar calendar = Calendar.getInstance();
 
-		calendar.add(Calendar.DAY_OF_YEAR, 1);
+		calendar.add(Calendar.DAY_OF_YEAR, 2);
 		Date tomorrow = calendar.getTime();
-		
-		driver.findElement(By.id("datepicker")).sendKeys(Keys.chord(Keys.CONTROL, "a"), dateFormat.format(tomorrow));
-		driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), journey.getStart());
+	
+		if (driver.getClass().getName().contains("Visible")) {
+			driver.findElement(By.id("datepicker")).sendKeys(Keys.chord(Keys.CONTROL, "a"), dateFormat.format(tomorrow));
+			driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), journey.getStart());
+		}
 
 		selectOnlyTrainTransportMethods();
 		
-		driver.findElement(By.id("endpoint")).submit();
+		driver.findElement(By.xpath("//div[@class='submit-btn']/input")).click();
 		
 		WebElement tableElement = driver.findElement(By.xpath("//table[@class='jpresults']"));
 		WebElement durationElement = tableElement.findElement(By.xpath("//td[@class='duration']"));

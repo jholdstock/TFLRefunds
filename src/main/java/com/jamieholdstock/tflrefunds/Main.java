@@ -13,8 +13,6 @@ public class Main {
 		
 		new DataStore();
 		
-    	log("\n");
-		
 		//VisibleDriver driver = new VisibleDriver();
     	HeadlessDriver driver = new HeadlessDriver();
     	

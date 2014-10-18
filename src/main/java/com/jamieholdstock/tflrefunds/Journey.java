@@ -8,6 +8,7 @@ public class Journey {
 	private Time start;
 	private Time end;
 	private String cost;
+	private Duration expectedDuration; 
 	
 	public Journey(Station source, Station destination, String date, Time start, Time end, String cost) {
 		this.source = source;
@@ -29,14 +30,22 @@ public class Journey {
 	public String getStart() {
 		return start.toString();
 	}
+	
+	public void setExpectedDuration(Duration d) {
+		this.expectedDuration = d;
+	}
 
+	public Duration getExpectedDuration() {
+		return this.expectedDuration;
+	}
+	
 	public Duration getDuration() {
 	    return Duration.betweenTimes(start, end);
 	}
 	
 	@Override
 	public String toString() {
-		return "DATE: " + date + "\n"
+		String s = "DATE: " + date + "\n"
 				+"COST: " + cost + "\n"
 				+ "------------------\n"
 				+ "FROM: " + source + "\n"
@@ -45,6 +54,14 @@ public class Journey {
 				+ "START: " + start + "\n"
 				+ "  END: " + end + "\n"
 				+ "------------------\n"
-				+ "DURATION: " + getDuration();
+				+ "DURATION: " + getDuration() + "\n";
+		if (expectedDuration != null) { 
+			s += "EXPECTED: " + expectedDuration + "\n"
+				+ "DELAY: " + (getDuration().toInt() - expectedDuration.toInt());
+		}
+		else {
+			s+= "EXPECTED: null";
+		}
+		return s;
 	}
 }

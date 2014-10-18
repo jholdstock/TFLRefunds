@@ -53,8 +53,6 @@ public class TableRow {
 		return new Station(station);
 	}
 	
-	
-	
 	public String getStart() {
 		return selectWithRegex("(" + timeRegex + ")" + " -");
 	}
