@@ -61,10 +61,7 @@ public class OysterHistoryPage {
 	        		continue;
 	        	}
 	        	
-	        	Time start = new Time(tr.getStart());
-	        	Time end = new Time(tr.getEnd());
-	        	
-	        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end, tr.getCost());
+	        	Journey j = new Journey(tr.getSource().getName(), tr.getDestination().getName(), date, tr.getStart(), tr.getEnd(), tr.getCost());
 	        	
 	        	journeys.add(j);
 	        }

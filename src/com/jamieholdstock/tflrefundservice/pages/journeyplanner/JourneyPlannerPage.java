@@ -28,8 +28,8 @@ public class JourneyPlannerPage {
 	public List<Journey> getJourneyDurations(List<Journey> journeys) {
 		for (Journey j : journeys) {
         	try {
-        		Duration duration = getJourneyDuration(j.getSource().getName(), j.getDestination().getName(), j.getStart());
-        		j.setExpectedDuration(duration);
+        		Duration duration = getJourneyDuration(j.getSource(), j.getDestination(), j.getStart());
+        		j.setExpectedDuration(duration.toInt());
         	}
         	catch (NoSuchElementException exception) {
         		continue;

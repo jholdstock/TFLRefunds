@@ -2,15 +2,15 @@ package com.jamieholdstock.tflrefundservice;
 
 
 public class Journey {
-	private Station source;
-	private Station destination;
+	private String source;
+	private String destination;
 	private String date;
-	private Time start;
-	private Time end;
+	private String start;
+	private String end;
 	private String cost;
-	private Duration expectedDuration; 
+	private int expectedDuration; 
 	
-	public Journey(Station source, Station destination, String date, Time start, Time end, String cost) {
+	public Journey(String source, String destination, String date, String start, String end, String cost) {
 		this.source = source;
 		this.destination = destination;
 		this.date = date;
@@ -19,11 +19,11 @@ public class Journey {
 	    this.cost = cost;
 	}
 	
-	public Station getSource() {
+	public String getSource() {
 		return source;
 	}
 
-	public Station getDestination() {
+	public String getDestination() {
 		return destination;
 	}
 	
@@ -31,16 +31,16 @@ public class Journey {
 		return start.toString();
 	}
 	
-	public void setExpectedDuration(Duration d) {
+	public void setExpectedDuration(int d) {
 		this.expectedDuration = d;
 	}
 
-	public Duration getExpectedDuration() {
+	public int getExpectedDuration() {
 		return this.expectedDuration;
 	}
 	
 	public Duration getDuration() {
-	    return Duration.betweenTimes(start, end);
+	    return Duration.betweenTimes(new Time(start), new Time(end));
 	}
 	
 	@Override
@@ -55,9 +55,9 @@ public class Journey {
 				+ "  END: " + end + "\n"
 				+ "------------------\n"
 				+ "DURATION: " + getDuration() + "\n";
-		if (expectedDuration != null) { 
+		if (expectedDuration != 0) { 
 			s += "EXPECTED: " + expectedDuration + "\n"
-				+ "DELAY: " + (getDuration().toInt() - expectedDuration.toInt());
+				+ "DELAY: " + (getDuration().toInt() - expectedDuration);
 		}
 		else {
 			s+= "EXPECTED: null";
