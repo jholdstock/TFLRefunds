@@ -1,5 +1,6 @@
 package com.jamieholdstock.tflrefundservice.persistence;
 
+import java.io.File;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,12 +15,15 @@ import com.jamieholdstock.tflrefundservice.Journey;
 
 public class DataStore {
 
+	private String path = System.getProperty("user.home") + File.separator + "tfl" + File.separator + "storage.mvs";
+	
 	public DataStore() {
 		
 	}
 	
 	public void storeDate(Date d) {
-		MVStore s = MVStore.open("storage.mvs");
+		
+		MVStore s = MVStore.open(path);
 		
 		MVMap<Integer, Date> map = s.openMap("date");
 		
@@ -29,7 +33,7 @@ public class DataStore {
 	}
 	
 	public Date getDate() {
-		MVStore s = MVStore.open("storage.mvs");
+		MVStore s = MVStore.open(path);
 		
 		MVMap<Integer, Date> map = s.openMap("date");
 		
@@ -39,7 +43,7 @@ public class DataStore {
 	
 	
 	public void store(List<Journey> journeys) {
-		MVStore s = MVStore.open("storage.mvs");
+		MVStore s = MVStore.open(path);
 		
 		MVMap<Integer, String> map = s.openMap("data");
 		String st = new GsonBuilder().excludeFieldsWithModifiers(Modifier.STATIC).create().toJson(journeys);
@@ -51,7 +55,7 @@ public class DataStore {
 	}
 
 	public List<Journey> retreive() {
-		MVStore s = MVStore.open("storage.mvs");
+		MVStore s = MVStore.open(path);
 		
 		MVMap<Integer, String> map = s.openMap("data");
 		String st = map.get(1);
