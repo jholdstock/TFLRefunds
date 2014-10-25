@@ -44,12 +44,12 @@ public class TableRow {
 	}
 	
 	public Station getSource() {
-		String station = selectWithRegex("- " + timeRegex + " ([^£]*) to ");
+		String station = selectWithRegex("- " + timeRegex + " ([^\u00A3]*) to ");
 		return new Station(station);
 	}
 	
 	public Station getDestination() {
-		String station = selectWithRegex(" to ([^£]*) £");
+		String station = selectWithRegex(" to ([^\u00A3]*) \u00A3");
 		
 		int index = station.indexOf("The fare");
 		if (index != -1) {
@@ -68,7 +68,7 @@ public class TableRow {
 	}
 	
 	public String getCost() {
-		return selectWithRegex("(£\\S*)");
+		return selectWithRegex("(\u00A3\\S*)");
 	}
 	
 	private String selectWithRegex(String regex) {
