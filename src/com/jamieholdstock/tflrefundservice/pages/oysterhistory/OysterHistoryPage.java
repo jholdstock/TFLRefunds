@@ -1,4 +1,4 @@
-package com.jamieholdstock.tflrefunds.pages.oysterhistory;
+package com.jamieholdstock.tflrefundservice.pages.oysterhistory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
 import com.google.common.base.Function;
-import com.jamieholdstock.tflrefunds.Journey;
-import com.jamieholdstock.tflrefunds.Time;
+import com.jamieholdstock.tflrefundservice.Journey;
+import com.jamieholdstock.tflrefundservice.Time;
 
 public class OysterHistoryPage {
 	
@@ -61,8 +61,8 @@ public class OysterHistoryPage {
 	        		continue;
 	        	}
 	        	
-	        	Time start = Time.fromTflFormat(tr.getStart());
-	        	Time end = Time.fromTflFormat(tr.getEnd());
+	        	Time start = new Time(tr.getStart());
+	        	Time end = new Time(tr.getEnd());
 	        	
 	        	Journey j = new Journey(tr.getSource(), tr.getDestination(), date, start, end, tr.getCost());
 	        	
@@ -78,8 +78,6 @@ public class OysterHistoryPage {
 	        }
         }
         while (!endLoop);
-        
-        System.out.println("Got journeys: " + journeys.size());
         
         return journeys;
 	}

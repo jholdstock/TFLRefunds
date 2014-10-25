@@ -1,4 +1,4 @@
-package com.jamieholdstock.tflrefunds.pages.oysterhistory;
+package com.jamieholdstock.tflrefundservice.pages.oysterhistory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jamieholdstock.tflrefunds.Station;
+import com.jamieholdstock.tflrefundservice.Station;
 
 public class TableRow {
 
@@ -44,12 +44,18 @@ public class TableRow {
 	}
 	
 	public Station getSource() {
-		String station = selectWithRegex("- " + timeRegex + " ([^Â£]*) to ");
+		String station = selectWithRegex("- " + timeRegex + " ([^£]*) to ");
 		return new Station(station);
 	}
 	
 	public Station getDestination() {
-		String station = selectWithRegex(" to ([^Â£]*) Â£");
+		String station = selectWithRegex(" to ([^£]*) £");
+		
+		int index = station.indexOf("The fare");
+		if (index != -1) {
+			station = station.substring(0, index);
+		}
+		
 		return new Station(station);
 	}
 	
@@ -62,14 +68,19 @@ public class TableRow {
 	}
 	
 	public String getCost() {
-		return selectWithRegex("(Â£\\S*)");
+		return selectWithRegex("(£\\S*)");
 	}
 	
 	private String selectWithRegex(String regex) {
 		Pattern MY_PATTERN = Pattern.compile(regex);
     	Matcher m = MY_PATTERN.matcher(rowText);
     	m.find();
-    	return m.group(1);
+    	try {
+    		return m.group(1);
+    	} 
+    	catch (IllegalStateException e) {
+    		throw new IllegalStateException("No match for regex /" + regex + "/ in string '" + rowText + "'");
+    	}
 	}
 	
 	@Override

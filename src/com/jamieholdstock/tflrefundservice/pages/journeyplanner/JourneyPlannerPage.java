@@ -1,4 +1,4 @@
-package com.jamieholdstock.tflrefunds.pages.journeyplanner;
+package com.jamieholdstock.tflrefundservice.pages.journeyplanner;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import com.jamieholdstock.tflrefunds.Duration;
-import com.jamieholdstock.tflrefunds.Journey;
-import com.jamieholdstock.tflrefunds.Station;
+import com.jamieholdstock.tflrefundservice.Duration;
+import com.jamieholdstock.tflrefundservice.Journey;
 
 public class JourneyPlannerPage {
 	
@@ -29,7 +28,7 @@ public class JourneyPlannerPage {
 	public List<Journey> getJourneyDurations(List<Journey> journeys) {
 		for (Journey j : journeys) {
         	try {
-        		Duration duration = getJourneyDuration(j);
+        		Duration duration = getJourneyDuration(j.getSource().getName(), j.getDestination().getName(), j.getStart());
         		j.setExpectedDuration(duration);
         	}
         	catch (NoSuchElementException exception) {
@@ -39,17 +38,15 @@ public class JourneyPlannerPage {
 		return journeys;
 	}
 	
-	public Duration getJourneyDuration(Journey journey) {
-		Station source = journey.getSource();
-		Station destination = journey.getDestination();
+	public Duration getJourneyDuration(String source, String destination, String start) {
 		
 		if (durationCache.containsJourney(source, destination)) {
 			return durationCache.getJourney(source, destination);
 		}
 		
 		driver.get("http://journeyplanner.tfl.gov.uk/user/XSLT_TRIP_REQUEST2?language=en");
-		driver.findElement(By.id("startpoint")).sendKeys(source.getName());
-		driver.findElement(By.id("endpoint")).sendKeys(destination.getName());
+		driver.findElement(By.id("startpoint")).sendKeys(source);
+		driver.findElement(By.id("endpoint")).sendKeys(destination);
 		
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Calendar calendar = Calendar.getInstance();
@@ -59,7 +56,7 @@ public class JourneyPlannerPage {
 	
 		if (driver.getClass().getName().contains("Visible")) {
 			driver.findElement(By.id("datepicker")).sendKeys(Keys.chord(Keys.CONTROL, "a"), dateFormat.format(tomorrow));
-			driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), journey.getStart());
+			driver.findElement(By.id("jp-time")).sendKeys(Keys.chord(Keys.CONTROL, "a"), start);
 		}
 
 		selectOnlyTrainTransportMethods();
