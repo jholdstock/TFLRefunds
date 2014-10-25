@@ -15,7 +15,7 @@ import com.jamieholdstock.tflrefundservice.Journey;
 
 public class DataStore {
 
-	private String path = System.getProperty("user.home") + File.separator + "tfl" + File.separator + "storage.mvs";
+	private String path = System.getProperty("user.home") + File.separator + "storage.mvs";
 	
 	public DataStore() {
 		
